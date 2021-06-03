@@ -4,49 +4,49 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@ResponseBody
-@RequestMapping("hello")
 public class HelloController {
+//    // Handle request at path /hello
+//    @GetMapping("hello")
+//    @ResponseBody
+//    public String hello() {
+//        return "Hello, Spring!";
+//    }
 
-    //handles request at the path /hello
-    /*@GetMapping("hello")
-    @ResponseBody
-    public String hello(){
-        return "Hello Spring!";
-    }*/
-    // lives at /hello/goodbye
     @GetMapping("goodbye")
+    @ResponseBody
     public String goodbye() {
         return "Goodbye, Spring!";
     }
-/*
+
     // Handles requests of the form /hello?name=LaunchCode
-    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST})
-    public String helloWithQueryParam(@RequestParam String name,@RequestParam String language) {
-        return "Hello, "+name + "!";
+    @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "hello")
+    @ResponseBody
+    public String helloWithQueryParam(@RequestParam String name) {
+        return "Hello, " + name + "!";
     }
 
     // Handles requests of the form /hello/LaunchCode
-    @GetMapping("{name}")
+    @GetMapping("hello/{name}")
+    @ResponseBody
     public String helloWithPathParam(@PathVariable String name) {
         return "Hello, " + name + "!";
     }
-*/
-    // /hello/form
-    /*
+
+
     @GetMapping("form")
-    public String helloForm() {
+    @ResponseBody
+    public String helloUserForm() {
         return "<html>" +
                 "<body>" +
-                "<form action = '/hello' method = 'post'>" + // submit a request to /hello
+                "<form action = 'hello' method = 'post'>" + // submit a request to /hello
                 "<input type = 'text' name = 'name' >" +
                 "<input type = 'submit' value = 'Greet Me!' >" +
                 "</form>" +
                 "</body>" +
                 "</html>";
     }
-    */
-    @RequestMapping(value="hello", method = RequestMethod.POST)
+
+    @RequestMapping(value="helloUser", method = RequestMethod.POST)
     @ResponseBody
     public String helloPost(@RequestParam String name, @RequestParam String language) {
 
@@ -78,10 +78,12 @@ public class HelloController {
         return greeting + " " + name;
     }
     @GetMapping("form")
+    @ResponseBody
+    @RequestMapping("helloUser")
     public String helloForm() {
         return "<html>" +
                 "<body>" +
-                "<form action = 'hello' method = 'post'>" + // submit a request to /hello
+                "<form action = 'helloUser' method = 'post'>" + // submit a request to /hello
                 "<input type = 'text' name = 'name' >" +
                 "<select id ='language' name ='language'>"+
                 "<option value ='Hello'>English</option>"+
