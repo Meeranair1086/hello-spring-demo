@@ -1,7 +1,11 @@
 package org.launchcode.hellospring.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class HelloController {
@@ -20,32 +24,36 @@ public class HelloController {
 
     // Handles requests of the form /hello?name=LaunchCode
     @RequestMapping(method = {RequestMethod.GET, RequestMethod.POST}, value = "hello")
-    @ResponseBody
-    public String helloWithQueryParam(@RequestParam String name) {
-        return "Hello, " + name + "!";
+    public String helloWithQueryParam(@RequestParam String name, Model model) {
+        String greeting = "Hello, " + name + "!";
+        model.addAttribute("greeting",greeting);
+        return "hello";
     }
 
     // Handles requests of the form /hello/LaunchCode
     @GetMapping("hello/{name}")
-    @ResponseBody
-    public String helloWithPathParam(@PathVariable String name) {
-        return "Hello, " + name + "!";
+    public String helloWithPathParam(@PathVariable String name,Model model) {
+        String greeting = "Hello, " + name + "!";
+        model.addAttribute("greeting",greeting);
+        return "hello";
+    }
+
+    @GetMapping("hello-names")
+    public String helloNames(Model model){
+        List<String> names = new ArrayList<>();
+        names.add("Meera");
+        names.add("Deepa");
+        names.add("Sajeesh");
+        model.addAttribute("names",names);
+        return "hello-list";
     }
 
 
     @GetMapping("form")
-    @ResponseBody
     public String helloUserForm() {
-        return "<html>" +
-                "<body>" +
-                "<form action = 'hello' method = 'post'>" + // submit a request to /hello
-                "<input type = 'text' name = 'name' >" +
-                "<input type = 'submit' value = 'Greet Me!' >" +
-                "</form>" +
-                "</body>" +
-                "</html>";
+        return "form";
     }
-
+//Exercise for chapter 10 is below
     @RequestMapping(value="helloUser", method = RequestMethod.POST)
     @ResponseBody
     public String helloPost(@RequestParam String name, @RequestParam String language) {
